@@ -38,8 +38,10 @@ reader=csv.DictReader(m)
 allMovies=''
 for i in reader:
    title = i['title'].replace('"', '""').replace('\'', '\'\'') # Nobody's в Nobody''s, переходы
-   year= re.search(r'\d{4}', i['title'])
-   allMovies+= f"({i['movieId']}, '{title}', {year.group(0) if year is not None else 'null'}, '{i['genres']}'),\n"
+   year= re.search(r'\(\d{4}\)', i['title'])
+   year = year.group(0)[1:-1] if year is not None else 'null'
+   print(year)
+   allMovies+= f"({i['movieId']}, '{title}', {year}, '{i['genres']}'),\n"
 f.write(f'\n{allMovies[:-2]};\n')
 m.close()
 
