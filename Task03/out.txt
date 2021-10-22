@@ -1,0 +1,366 @@
+1. Составить список фильмов, имеющих хотя бы одну оценку. Список фильмов отсортировать по году выпуска и по названиям. В списке оставить первые 10 фильмов.
+--------------------------------------------------
+SELECT DISTINCT movies.id, movies.title, movies.year FROM movies JOIN ratings ON movies.id = ratings.movie_id ORDER BY year, title LIMIT 10;
+┌────────┬──────────────────────────────────────────────────────────────────────┬──────┐
+│   id   │                                title                                 │ year │
+├────────┼──────────────────────────────────────────────────────────────────────┼──────┤
+│ 40697  │ Babylon 5                                                            │      │
+│ 171495 │ Cosmos                                                               │      │
+│ 156605 │ Paterson                                                             │      │
+│ 140956 │ Ready Player One                                                     │      │
+│ 32898  │ Trip to the Moon, A (Voyage dans la lune, Le) (1902)                 │ 1902 │
+│ 49389  │ The Great Train Robbery (1903)                                       │ 1903 │
+│ 6987   │ Cabinet of Dr. Caligari, The (Cabinet des Dr. Caligari., Das) (1920) │ 1920 │
+│ 3310   │ Kid, The (1921)                                                      │ 1921 │
+│ 1348   │ Nosferatu (Nosferatu, eine Symphonie des Grauens) (1922)             │ 1922 │
+│ 3641   │ Woman of Paris, A (1923)                                             │ 1923 │
+└────────┴──────────────────────────────────────────────────────────────────────┴──────┘
+ 
+2. Вывести список всех пользователей, фамилии (не имена!) которых начинаются на букву 'A'. Полученный список отсортировать по дате регистрации. В списке оставить первых 5 пользователей.
+--------------------------------------------------
+SELECT * FROM users WHERE name LIKE '% A%' ORDER BY register_date limit 5;
+┌─────┬────────────────────┬───────────────────────────────┬────────┬───────────────┬───────────────┐
+│ id  │        name        │             email             │ gender │ register_date │  occupation   │
+├─────┼────────────────────┼───────────────────────────────┼────────┼───────────────┼───────────────┤
+│ 151 │ Callie Abshire     │ itzel.rohan@yahoo.com         │ female │ 2005-01-02    │ administrator │
+│ 749 │ Jena Abernathy     │ shanny36@hotmail.com          │ female │ 2006-06-10    │ other         │
+│ 817 │ Deron Altenwerth   │ lysanne.considine@hotmail.com │ male   │ 2007-05-16    │ student       │
+│ 539 │ Lilliana Abernathy │ demond65@schaden.biz          │ female │ 2007-10-25    │ administrator │
+│ 437 │ Quinton Anderson   │ stephany.hyatt@thiel.com      │ male   │ 2008-04-04    │ other         │
+└─────┴────────────────────┴───────────────────────────────┴────────┴───────────────┴───────────────┘
+3. Написать запрос, возвращающий информацию о рейтингах в более читаемом формате: имя и фамилия эксперта, название фильма, год выпуска, оценка и дата оценки в формате ГГГГ-ММ-ДД. Отсортировать данные по имени эксперта, затем названию фильма и оценке. В списке оставить первые 50 записей.
+--------------------------------------------------
+SELECT users.name, movies.title, movies.year, rating, DATE(timestamp, 'unixepoch') FROM ratings JOIN users ON users.id == user_id JOIN movies ON movies.id == movie_id ORDER BY users.name, movies.title, rating LIMIT 50;
+┌───────────────────┬───────────────────────────────────────────────────────────┬──────┬────────┬──────────────────────────────┐
+│       name        │                           title                           │ year │ rating │ DATE(timestamp, 'unixepoch') │
+├───────────────────┼───────────────────────────────────────────────────────────┼──────┼────────┼──────────────────────────────┤
+│ Adalberto Pfeffer │ Ace Ventura: Pet Detective (1994)                         │ 1994 │ 2      │ 1996-08-30                   │
+│ Adalberto Pfeffer │ Aladdin (1992)                                            │ 1992 │ 3      │ 1996-08-30                   │
+│ Adalberto Pfeffer │ Apollo 13 (1995)                                          │ 1995 │ 4      │ 1996-08-30                   │
+│ Adalberto Pfeffer │ Beauty and the Beast (1991)                               │ 1991 │ 4      │ 1996-08-30                   │
+│ Adalberto Pfeffer │ Braveheart (1995)                                         │ 1995 │ 5      │ 1996-08-30                   │
+│ Adalberto Pfeffer │ Clear and Present Danger (1994)                           │ 1994 │ 3      │ 1996-08-30                   │
+│ Adalberto Pfeffer │ Client, The (1994)                                        │ 1994 │ 3      │ 1996-08-30                   │
+│ Adalberto Pfeffer │ Cliffhanger (1993)                                        │ 1993 │ 3      │ 1996-08-30                   │
+│ Adalberto Pfeffer │ Clueless (1995)                                           │ 1995 │ 4      │ 1996-08-30                   │
+│ Adalberto Pfeffer │ Congo (1995)                                              │ 1995 │ 4      │ 1996-08-30                   │
+│ Adalberto Pfeffer │ Crimson Tide (1995)                                       │ 1995 │ 4      │ 1996-08-30                   │
+│ Adalberto Pfeffer │ Dances with Wolves (1990)                                 │ 1990 │ 3      │ 1996-08-30                   │
+│ Adalberto Pfeffer │ Demolition Man (1993)                                     │ 1993 │ 3      │ 1996-08-31                   │
+│ Adalberto Pfeffer │ Die Hard: With a Vengeance (1995)                         │ 1995 │ 5      │ 1996-08-30                   │
+│ Adalberto Pfeffer │ Disclosure (1994)                                         │ 1994 │ 3      │ 1996-08-30                   │
+│ Adalberto Pfeffer │ Firm, The (1993)                                          │ 1993 │ 4      │ 1996-08-30                   │
+│ Adalberto Pfeffer │ Forrest Gump (1994)                                       │ 1994 │ 5      │ 1996-08-30                   │
+│ Adalberto Pfeffer │ Fugitive, The (1993)                                      │ 1993 │ 5      │ 1996-08-30                   │
+│ Adalberto Pfeffer │ Ghost (1990)                                              │ 1990 │ 4      │ 1996-08-30                   │
+│ Adalberto Pfeffer │ Home Alone (1990)                                         │ 1990 │ 3      │ 1996-08-30                   │
+│ Adalberto Pfeffer │ In the Line of Fire (1993)                                │ 1993 │ 4      │ 1996-08-30                   │
+│ Adalberto Pfeffer │ Interview with the Vampire: The Vampire Chronicles (1994) │ 1994 │ 5      │ 1996-08-30                   │
+│ Adalberto Pfeffer │ Jumanji (1995)                                            │ 1995 │ 3      │ 1996-08-31                   │
+│ Adalberto Pfeffer │ Jurassic Park (1993)                                      │ 1993 │ 4      │ 1996-08-30                   │
+│ Adalberto Pfeffer │ Lion King, The (1994)                                     │ 1994 │ 4      │ 1996-08-30                   │
+│ Adalberto Pfeffer │ Mask, The (1994)                                          │ 1994 │ 3      │ 1996-08-30                   │
+│ Adalberto Pfeffer │ Mrs. Doubtfire (1993)                                     │ 1993 │ 3      │ 1996-08-30                   │
+│ Adalberto Pfeffer │ Natural Born Killers (1994)                               │ 1994 │ 5      │ 1996-08-30                   │
+│ Adalberto Pfeffer │ Net, The (1995)                                           │ 1995 │ 3      │ 1996-08-30                   │
+│ Adalberto Pfeffer │ Outbreak (1995)                                           │ 1995 │ 3      │ 1996-08-30                   │
+│ Adalberto Pfeffer │ Piano, The (1993)                                         │ 1993 │ 2      │ 1996-08-31                   │
+│ Adalberto Pfeffer │ Pretty Woman (1990)                                       │ 1990 │ 4      │ 1996-08-30                   │
+│ Adalberto Pfeffer │ Pulp Fiction (1994)                                       │ 1994 │ 5      │ 1996-08-30                   │
+│ Adalberto Pfeffer │ Quiz Show (1994)                                          │ 1994 │ 4      │ 1996-08-30                   │
+│ Adalberto Pfeffer │ Rob Roy (1995)                                            │ 1995 │ 5      │ 1996-08-30                   │
+│ Adalberto Pfeffer │ Santa Clause, The (1994)                                  │ 1994 │ 3      │ 1996-08-30                   │
+│ Adalberto Pfeffer │ Schindler's List (1993)                                   │ 1993 │ 5      │ 1996-08-30                   │
+│ Adalberto Pfeffer │ Seven (a.k.a. Se7en) (1995)                               │ 1995 │ 5      │ 1996-08-30                   │
+│ Adalberto Pfeffer │ Shawshank Redemption, The (1994)                          │ 1994 │ 5      │ 1996-08-30                   │
+│ Adalberto Pfeffer │ Silence of the Lambs, The (1991)                          │ 1991 │ 5      │ 1996-08-30                   │
+│ Adalberto Pfeffer │ Sleepless in Seattle (1993)                               │ 1993 │ 3      │ 1996-08-30                   │
+│ Adalberto Pfeffer │ Speed (1994)                                              │ 1994 │ 4      │ 1996-08-30                   │
+│ Adalberto Pfeffer │ Stargate (1994)                                           │ 1994 │ 3      │ 1996-08-30                   │
+│ Adalberto Pfeffer │ Terminator 2: Judgment Day (1991)                         │ 1991 │ 3      │ 1996-08-30                   │
+│ Adalberto Pfeffer │ Tombstone (1993)                                          │ 1993 │ 3      │ 1996-08-30                   │
+│ Adalberto Pfeffer │ True Lies (1994)                                          │ 1994 │ 3      │ 1996-08-30                   │
+│ Adalberto Pfeffer │ Twelve Monkeys (a.k.a. 12 Monkeys) (1995)                 │ 1995 │ 5      │ 1996-08-30                   │
+│ Adalberto Pfeffer │ Usual Suspects, The (1995)                                │ 1995 │ 5      │ 1996-08-30                   │
+│ Adalberto Pfeffer │ Waterworld (1995)                                         │ 1995 │ 3      │ 1996-08-30                   │
+│ Adalberto Pfeffer │ What's Eating Gilbert Grape (1993)                        │ 1993 │ 3      │ 1996-08-31                   │
+└───────────────────┴───────────────────────────────────────────────────────────┴──────┴────────┴──────────────────────────────┘
+ 
+4. Вывести список фильмов с указанием тегов, которые были им присвоены пользователями. Сортировать по году выпуска, затем по названию фильма, затем по тегу. В списке оставить первые 40 записей.
+--------------------------------------------------
+SELECT movies.id, movies.title, movies.year, movies.genres, tags.tag FROM movies JOIN tags ON movies.id == tags.movie_id ORDER BY movies.year, movies.title, tags.tag LIMIT 40;
+┌────────┬──────────────────────────────────────────────────────────────────┬──────┬──────────────────────────┬───────────────────────┐
+│   id   │                              title                               │ year │          genres          │          tag          │
+├────────┼──────────────────────────────────────────────────────────────────┼──────┼──────────────────────────┼───────────────────────┤
+│ 156605 │ Paterson                                                         │      │ (no genres listed)       │ quirky                │
+│ 156605 │ Paterson                                                         │      │ (no genres listed)       │ sweet                 │
+│ 156605 │ Paterson                                                         │      │ (no genres listed)       │ understated           │
+│ 3310   │ Kid, The (1921)                                                  │ 1921 │ Comedy|Drama             │ orphans               │
+│ 1348   │ Nosferatu (Nosferatu, eine Symphonie des Grauens) (1922)         │ 1922 │ Horror                   │ vampires              │
+│ 8609   │ Our Hospitality (1923)                                           │ 1923 │ Comedy                   │ In Netflix queue      │
+│ 8235   │ Safety Last! (1923)                                              │ 1923 │ Action|Comedy|Romance    │ Clock                 │
+│ 25753  │ Greed (1924)                                                     │ 1924 │ Drama                    │ gold                  │
+│ 3629   │ Gold Rush, The (1925)                                            │ 1925 │ Adventure|Comedy|Romance │ mining                │
+│ 4404   │ Faust (1926)                                                     │ 1926 │ Drama|Fantasy|Horror     │ In Netflix queue      │
+│ 8275   │ College (1927)                                                   │ 1927 │ Comedy                   │ In Netflix queue      │
+│ 3306   │ Circus, The (1928)                                               │ 1928 │ Comedy                   │ big top               │
+│ 3306   │ Circus, The (1928)                                               │ 1928 │ Comedy                   │ circus                │
+│ 6985   │ Passion of Joan of Arc, The (Passion de Jeanne d'Arc, La) (1928) │ 1928 │ Drama                    │ saint                 │
+│ 25771  │ Andalusian Dog, An (Chien andalou, Un) (1929)                    │ 1929 │ Fantasy                  │ mindfuck              │
+│ 25771  │ Andalusian Dog, An (Chien andalou, Un) (1929)                    │ 1929 │ Fantasy                  │ surreal               │
+│ 25771  │ Andalusian Dog, An (Chien andalou, Un) (1929)                    │ 1929 │ Fantasy                  │ surrealism            │
+│ 4970   │ Blue Angel, The (Blaue Engel, Der) (1930)                        │ 1930 │ Drama                    │ nightclub             │
+│ 4970   │ Blue Angel, The (Blaue Engel, Der) (1930)                        │ 1930 │ Drama                    │ singers               │
+│ 8424   │ Divorcee, The (1930)                                             │ 1930 │ Drama|Romance            │ divorce               │
+│ 3307   │ City Lights (1931)                                               │ 1931 │ Comedy|Drama|Romance     │ blind                 │
+│ 2648   │ Frankenstein (1931)                                              │ 1931 │ Drama|Horror|Sci-Fi      │ In Netflix queue      │
+│ 1260   │ M (1931)                                                         │ 1931 │ Crime|Film-Noir|Thriller │ atmospheric           │
+│ 1260   │ M (1931)                                                         │ 1931 │ Crime|Film-Noir|Thriller │ chilly                │
+│ 1260   │ M (1931)                                                         │ 1931 │ Crime|Film-Noir|Thriller │ creepy                │
+│ 1260   │ M (1931)                                                         │ 1931 │ Crime|Film-Noir|Thriller │ menacing              │
+│ 1260   │ M (1931)                                                         │ 1931 │ Crime|Film-Noir|Thriller │ mental illness        │
+│ 1260   │ M (1931)                                                         │ 1931 │ Crime|Film-Noir|Thriller │ oninous               │
+│ 1260   │ M (1931)                                                         │ 1931 │ Crime|Film-Noir|Thriller │ serial killer         │
+│ 8228   │ Maltese Falcon, The (a.k.a. Dangerous Female) (1931)             │ 1931 │ Mystery                  │ heist                 │
+│ 976    │ Farewell to Arms, A (1932)                                       │ 1932 │ Romance|War              │ Hemingway             │
+│ 8507   │ Freaks (1932)                                                    │ 1932 │ Crime|Drama|Horror       │ circus                │
+│ 7091   │ Horse Feathers (1932)                                            │ 1932 │ Comedy                   │ Marx brothers         │
+│ 7049   │ Flying Down to Rio (1933)                                        │ 1933 │ Comedy|Musical|Romance   │ Astaire and Rogers    │
+│ 3932   │ Invisible Man, The (1933)                                        │ 1933 │ Horror|Sci-Fi            │ invisibility          │
+│ 907    │ Gay Divorcee, The (1934)                                         │ 1934 │ Comedy|Musical|Romance   │ divorce               │
+│ 905    │ It Happened One Night (1934)                                     │ 1934 │ Comedy|Romance           │ Screwball             │
+│ 950    │ Thin Man, The (1934)                                             │ 1934 │ Comedy|Crime             │ Nick and Nora Charles │
+│ 32160  │ Twentieth Century (1934)                                         │ 1934 │ Comedy                   │ In Netflix queue      │
+│ 965    │ 39 Steps, The (1935)                                             │ 1935 │ Drama|Mystery|Thriller   │ fugitive              │
+└────────┴──────────────────────────────────────────────────────────────────┴──────┴──────────────────────────┴───────────────────────┘
+5. Вывести список самых свежих фильмов. В список должны войти все фильмы последнего года выпуска, имеющиеся в базе данных. Запрос должен быть универсальным, не зависящим от исходных данных (нужный год выпуска должен определяться в запросе, а не жестко задаваться).
+--------------------------------------------------
+SELECT * FROM movies WHERE year = (SELECT MAX(year) FROM movies);
+┌────────┬───────────────────────────────────────────┬──────┬────────────────────────────────────────┐
+│   id   │                   title                   │ year │                 genres                 │
+├────────┼───────────────────────────────────────────┼──────┼────────────────────────────────────────┤
+│ 122912 │ Avengers: Infinity War - Part I (2018)    │ 2018 │ Action|Adventure|Sci-Fi                │
+│ 182715 │ Annihilation (2018)                       │ 2018 │ Adventure|Mystery|Sci-Fi|Thriller      │
+│ 183011 │ The Commuter (2018)                       │ 2018 │ Crime|Drama|Mystery|Thriller           │
+│ 183295 │ Insidious: The Last Key (2018)            │ 2018 │ Horror|Mystery|Thriller                │
+│ 183611 │ Game Night (2018)                         │ 2018 │ Action|Comedy|Crime|Horror             │
+│ 183635 │ Maze Runner: The Death Cure (2018)        │ 2018 │ Action|Mystery|Sci-Fi|Thriller         │
+│ 183897 │ Isle of Dogs (2018)                       │ 2018 │ Animation|Comedy                       │
+│ 183911 │ The Clapper (2018)                        │ 2018 │ Comedy                                 │
+│ 183959 │ Tom Segura: Disgraceful (2018)            │ 2018 │ Comedy                                 │
+│ 184015 │ When We First Met (2018)                  │ 2018 │ Comedy                                 │
+│ 184253 │ The Cloverfield Paradox (2018)            │ 2018 │ Horror|Mystery|Sci-Fi|Thriller         │
+│ 184471 │ Tomb Raider (2018)                        │ 2018 │ Action|Adventure|Fantasy               │
+│ 184791 │ Fred Armisen: Standup for Drummers (2018) │ 2018 │ Comedy                                 │
+│ 184931 │ Death Wish (2018)                         │ 2018 │ Action|Crime|Drama|Thriller            │
+│ 184987 │ A Wrinkle in Time (2018)                  │ 2018 │ Adventure|Children|Fantasy|Sci-Fi      │
+│ 184997 │ Love, Simon (2018)                        │ 2018 │ Comedy|Drama                           │
+│ 185029 │ A Quiet Place (2018)                      │ 2018 │ Drama|Horror|Thriller                  │
+│ 185031 │ Alpha (2018)                              │ 2018 │ Adventure|Thriller                     │
+│ 185033 │ I Kill Giants (2018)                      │ 2018 │ Drama|Fantasy|Thriller                 │
+│ 185435 │ Game Over, Man! (2018)                    │ 2018 │ Action|Comedy                          │
+│ 185473 │ Blockers (2018)                           │ 2018 │ Comedy                                 │
+│ 185585 │ Pacific Rim: Uprising (2018)              │ 2018 │ Action|Fantasy|Sci-Fi                  │
+│ 186587 │ Rampage (2018)                            │ 2018 │ Action|Adventure|Sci-Fi                │
+│ 187031 │ Jurassic World: Fallen Kingdom (2018)     │ 2018 │ Action|Adventure|Drama|Sci-Fi|Thriller │
+│ 187541 │ Incredibles 2 (2018)                      │ 2018 │ Action|Adventure|Animation|Children    │
+│ 187593 │ Deadpool 2 (2018)                         │ 2018 │ Action|Comedy|Sci-Fi                   │
+│ 187595 │ Solo: A Star Wars Story (2018)            │ 2018 │ Action|Adventure|Children|Sci-Fi       │
+│ 187717 │ Won't You Be My Neighbor? (2018)          │ 2018 │ Documentary                            │
+│ 188189 │ Sorry to Bother You (2018)                │ 2018 │ Comedy|Fantasy|Sci-Fi                  │
+│ 188301 │ Ant-Man and the Wasp (2018)               │ 2018 │ Action|Adventure|Comedy|Fantasy|Sci-Fi │
+│ 188675 │ Dogman (2018)                             │ 2018 │ Crime|Drama                            │
+│ 188751 │ Mamma Mia: Here We Go Again! (2018)       │ 2018 │ Comedy|Romance                         │
+│ 188797 │ Tag (2018)                                │ 2018 │ Comedy                                 │
+│ 188833 │ The Man Who Killed Don Quixote (2018)     │ 2018 │ Adventure|Comedy|Fantasy               │
+│ 189043 │ Boundaries (2018)                         │ 2018 │ Comedy|Drama                           │
+│ 189111 │ Spiral (2018)                             │ 2018 │ Documentary                            │
+│ 189333 │ Mission: Impossible - Fallout (2018)      │ 2018 │ Action|Adventure|Thriller              │
+│ 189381 │ SuperFly (2018)                           │ 2018 │ Action|Crime|Thriller                  │
+│ 189713 │ BlacKkKlansman (2018)                     │ 2018 │ Comedy|Crime|Drama                     │
+│ 190183 │ The Darkest Minds (2018)                  │ 2018 │ Sci-Fi|Thriller                        │
+│ 193587 │ Bungo Stray Dogs: Dead Apple (2018)       │ 2018 │ Action|Animation                       │
+└────────┴───────────────────────────────────────────┴──────┴────────────────────────────────────────┘
+ 
+6. Найти все драмы, выпущенные после 2005 года, которые понравились женщинам (оценка не ниже 4.5). Для каждого фильма в этом списке вывести название, год выпуска и количество таких оценок. Результат отсортировать по году выпуска и названию фильма.
+--------------------------------------------------
+SELECT movies.title, movies.year, COUNT(ratings.id) FROM movies JOIN ratings ON movies.id == ratings.movie_id JOIN users ON ratings.user_id == users.id WHERE movies.year > 2005 AND users.gender == 'female' AND ratings.rating >= 4.5 AND movies.genres LIKE '%Drama%' GROUP BY movies.title ORDER BY movies.year, movies.title;
+┌─────────────────────────────────────────────────────────────────┬──────┬───────────────────┐
+│                              title                              │ year │ COUNT(ratings.id) │
+├─────────────────────────────────────────────────────────────────┼──────┼───────────────────┤
+│ Apocalypto (2006)                                               │ 2006 │ 1                 │
+│ Blood Diamond (2006)                                            │ 2006 │ 2                 │
+│ Children of Men (2006)                                          │ 2006 │ 1                 │
+│ Click (2006)                                                    │ 2006 │ 1                 │
+│ Departed, The (2006)                                            │ 2006 │ 7                 │
+│ Devil Wears Prada, The (2006)                                   │ 2006 │ 3                 │
+│ Fall, The (2006)                                                │ 2006 │ 1                 │
+│ Girl Who Leapt Through Time, The (Toki o kakeru shôjo) (2006)   │ 2006 │ 1                 │
+│ Inside Man (2006)                                               │ 2006 │ 2                 │
+│ Lake House, The (2006)                                          │ 2006 │ 1                 │
+│ Little Miss Sunshine (2006)                                     │ 2006 │ 2                 │
+│ Lucky Number Slevin (2006)                                      │ 2006 │ 1                 │
+│ Once (2006)                                                     │ 2006 │ 1                 │
+│ Painted Veil, The (2006)                                        │ 2006 │ 1                 │
+│ Pan's Labyrinth (Laberinto del fauno, El) (2006)                │ 2006 │ 2                 │
+│ Prestige, The (2006)                                            │ 2006 │ 3                 │
+│ Scanner Darkly, A (2006)                                        │ 2006 │ 1                 │
+│ Science of Sleep, The (La science des rêves) (2006)             │ 2006 │ 1                 │
+│ American Gangster (2007)                                        │ 2007 │ 1                 │
+│ August Rush (2007)                                              │ 2007 │ 1                 │
+│ Breach (2007)                                                   │ 2007 │ 1                 │
+│ Eastern Promises (2007)                                         │ 2007 │ 1                 │
+│ Freedom Writers (2007)                                          │ 2007 │ 1                 │
+│ Funny Games U.S. (2007)                                         │ 2007 │ 1                 │
+│ Harry Potter and the Order of the Phoenix (2007)                │ 2007 │ 2                 │
+│ Into the Wild (2007)                                            │ 2007 │ 1                 │
+│ Juno (2007)                                                     │ 2007 │ 1                 │
+│ Knocked Up (2007)                                               │ 2007 │ 1                 │
+│ Orphanage, The (Orfanato, El) (2007)                            │ 2007 │ 1                 │
+│ Ratatouille (2007)                                              │ 2007 │ 5                 │
+│ Shooter (2007)                                                  │ 2007 │ 1                 │
+│ Sweeney Todd: The Demon Barber of Fleet Street (2007)           │ 2007 │ 1                 │
+│ There Will Be Blood (2007)                                      │ 2007 │ 1                 │
+│ [REC] (2007)                                                    │ 2007 │ 1                 │
+│ Australia (2008)                                                │ 2008 │ 1                 │
+│ Burn After Reading (2008)                                       │ 2008 │ 1                 │
+│ Curious Case of Benjamin Button, The (2008)                     │ 2008 │ 1                 │
+│ Dark Knight, The (2008)                                         │ 2008 │ 5                 │
+│ Definitely, Maybe (2008)                                        │ 2008 │ 1                 │
+│ Dr. Horrible's Sing-Along Blog (2008)                           │ 2008 │ 2                 │
+│ Gran Torino (2008)                                              │ 2008 │ 2                 │
+│ Hurt Locker, The (2008)                                         │ 2008 │ 1                 │
+│ In Bruges (2008)                                                │ 2008 │ 2                 │
+│ Let the Right One In (Låt den rätte komma in) (2008)            │ 2008 │ 2                 │
+│ Milk (2008)                                                     │ 2008 │ 1                 │
+│ Other Boleyn Girl, The (2008)                                   │ 2008 │ 1                 │
+│ Slumdog Millionaire (2008)                                      │ 2008 │ 4                 │
+│ Taken (2008)                                                    │ 2008 │ 1                 │
+│ (500) Days of Summer (2009)                                     │ 2009 │ 2                 │
+│ 3 Idiots (2009)                                                 │ 2009 │ 1                 │
+│ Adventureland (2009)                                            │ 2009 │ 1                 │
+│ Cell 211 (Celda 211) (2009)                                     │ 2009 │ 1                 │
+│ Emma (2009)                                                     │ 2009 │ 1                 │
+│ Girl with the Dragon Tattoo, The (Män som hatar kvinnor) (2009) │ 2009 │ 1                 │
+│ Hachiko: A Dog's Story (a.k.a. Hachi: A Dog's Tale) (2009)      │ 2009 │ 1                 │
+│ Imaginarium of Doctor Parnassus, The (2009)                     │ 2009 │ 1                 │
+│ Inglourious Basterds (2009)                                     │ 2009 │ 2                 │
+│ Mary and Max (2009)                                             │ 2009 │ 2                 │
+│ Mr. Nobody (2009)                                               │ 2009 │ 1                 │
+│ New York, I Love You (2009)                                     │ 2009 │ 1                 │
+│ Pirate Radio (2009)                                             │ 2009 │ 1                 │
+│ Secret in Their Eyes, The (El secreto de sus ojos) (2009)       │ 2009 │ 1                 │
+│ Tyler Perry's I Can Do Bad All by Myself (2009)                 │ 2009 │ 1                 │
+│ Up (2009)                                                       │ 2009 │ 6                 │
+│ Up in the Air (2009)                                            │ 2009 │ 2                 │
+│ Young Victoria, The (2009)                                      │ 2009 │ 1                 │
+│ 127 Hours (2010)                                                │ 2010 │ 1                 │
+│ Flipped (2010)                                                  │ 2010 │ 1                 │
+│ Ghost Writer, The (2010)                                        │ 2010 │ 1                 │
+│ Incendies (2010)                                                │ 2010 │ 1                 │
+│ Inception (2010)                                                │ 2010 │ 6                 │
+│ King's Speech, The (2010)                                       │ 2010 │ 5                 │
+│ Let Me In (2010)                                                │ 2010 │ 1                 │
+│ Paper Birds (Pájaros de papel) (2010)                           │ 2010 │ 1                 │
+│ Shutter Island (2010)                                           │ 2010 │ 1                 │
+│ Social Network, The (2010)                                      │ 2010 │ 2                 │
+│ Temple Grandin (2010)                                           │ 2010 │ 1                 │
+│ Town, The (2010)                                                │ 2010 │ 1                 │
+│ Best Exotic Marigold Hotel, The (2011)                          │ 2011 │ 1                 │
+│ Carnage (2011)                                                  │ 2011 │ 1                 │
+│ Crazy, Stupid, Love. (2011)                                     │ 2011 │ 2                 │
+│ Eva (2011)                                                      │ 2011 │ 1                 │
+│ Girl with the Dragon Tattoo, The (2011)                         │ 2011 │ 1                 │
+│ Harry Potter and the Deathly Hallows: Part 2 (2011)             │ 2011 │ 4                 │
+│ Help, The (2011)                                                │ 2011 │ 1                 │
+│ Hugo (2011)                                                     │ 2011 │ 1                 │
+│ Intouchables (2011)                                             │ 2011 │ 5                 │
+│ Margin Call (2011)                                              │ 2011 │ 1                 │
+│ Moneyball (2011)                                                │ 2011 │ 1                 │
+│ Source Code (2011)                                              │ 2011 │ 1                 │
+│ The Artist (2011)                                               │ 2011 │ 1                 │
+│ Warrior (2011)                                                  │ 2011 │ 1                 │
+│ Argo (2012)                                                     │ 2012 │ 2                 │
+│ Bliss (2012)                                                    │ 2012 │ 1                 │
+│ Cloud Atlas (2012)                                              │ 2012 │ 2                 │
+│ Django Unchained (2012)                                         │ 2012 │ 2                 │
+│ Flight (2012)                                                   │ 2012 │ 1                 │
+│ Hunt, The (Jagten) (2012)                                       │ 2012 │ 1                 │
+│ It's Such a Beautiful Day (2012)                                │ 2012 │ 1                 │
+│ Life of Pi (2012)                                               │ 2012 │ 2                 │
+│ Lincoln (2012)                                                  │ 2012 │ 1                 │
+│ Moonrise Kingdom (2012)                                         │ 2012 │ 1                 │
+│ Silver Linings Playbook (2012)                                  │ 2012 │ 3                 │
+│ The Hunger Games (2012)                                         │ 2012 │ 1                 │
+│ This Is 40 (2012)                                               │ 2012 │ 1                 │
+│ Zero Dark Thirty (2012)                                         │ 2012 │ 1                 │
+│ About Time (2013)                                               │ 2013 │ 1                 │
+│ American Hustle (2013)                                          │ 2013 │ 1                 │
+│ Dallas Buyers Club (2013)                                       │ 2013 │ 2                 │
+│ Her (2013)                                                      │ 2013 │ 1                 │
+│ Secret Life of Walter Mitty, The (2013)                         │ 2013 │ 2                 │
+│ Side Effects (2013)                                             │ 2013 │ 1                 │
+│ Snowpiercer (2013)                                              │ 2013 │ 1                 │
+│ Wolf of Wall Street, The (2013)                                 │ 2013 │ 2                 │
+│ Birdman: Or (The Unexpected Virtue of Ignorance) (2014)         │ 2014 │ 2                 │
+│ Boyhood (2014)                                                  │ 2014 │ 2                 │
+│ Frank (2014)                                                    │ 2014 │ 1                 │
+│ Gone Girl (2014)                                                │ 2014 │ 1                 │
+│ Grand Budapest Hotel, The (2014)                                │ 2014 │ 1                 │
+│ Lilting (2014)                                                  │ 2014 │ 1                 │
+│ Nightcrawler (2014)                                             │ 2014 │ 1                 │
+│ Still Alice (2014)                                              │ 2014 │ 1                 │
+│ The Imitation Game (2014)                                       │ 2014 │ 2                 │
+│ The Theory of Everything (2014)                                 │ 2014 │ 1                 │
+│ Whiplash (2014)                                                 │ 2014 │ 3                 │
+│ Big Short, The (2015)                                           │ 2015 │ 1                 │
+│ Creed (2015)                                                    │ 2015 │ 1                 │
+│ Inside Out (2015)                                               │ 2015 │ 1                 │
+│ Mystère à la Tour Eiffel (2015)                                 │ 2015 │ 1                 │
+│ Steve Jobs (2015)                                               │ 2015 │ 1                 │
+│ Straight Outta Compton (2015)                                   │ 2015 │ 1                 │
+│ The Gift (2015)                                                 │ 2015 │ 1                 │
+│ The Martian (2015)                                              │ 2015 │ 3                 │
+│ The Revenant (2015)                                             │ 2015 │ 1                 │
+│ Victoria (2015)                                                 │ 2015 │ 1                 │
+│ Silence (2016)                                                  │ 2016 │ 1                 │
+│ The Girl with All the Gifts (2016)                              │ 2016 │ 1                 │
+│ The Jungle Book (2016)                                          │ 2016 │ 1                 │
+└─────────────────────────────────────────────────────────────────┴──────┴───────────────────┘
+7. Провести анализ востребованности ресурса - вывести количество пользователей, регистрировавшихся на сайте в каждом году. Найти, в каких годах регистрировалось больше всего и меньше всего пользователей.
+--------------------------------------------------
+SELECT STRFTIME('%Y', register_date) as Year, COUNT(STRFTIME('%Y', register_date)) as Count from users group by STRFTIME('%Y', register_date);
+┌──────┬───────┐
+│ Year │ Count │
+├──────┼───────┤
+│ 2005 │ 59    │
+│ 2006 │ 63    │
+│ 2007 │ 61    │
+│ 2008 │ 59    │
+│ 2009 │ 56    │
+│ 2010 │ 59    │
+│ 2011 │ 59    │
+│ 2012 │ 52    │
+│ 2013 │ 57    │
+│ 2014 │ 53    │
+│ 2015 │ 55    │
+│ 2016 │ 58    │
+│ 2017 │ 80    │
+│ 2018 │ 48    │
+│ 2019 │ 57    │
+│ 2020 │ 63    │
+│ 2021 │ 4     │
+└──────┴───────┘
+SELECT Year, Max(Count) FROM  (SELECT STRFTIME('%Y', register_date) as Year, COUNT(STRFTIME('%Y', register_date)) as Count FROM users GROUP BY STRFTIME('%Y', register_date));
+┌──────┬────────────┐
+│ Year │ Max(Count) │
+├──────┼────────────┤
+│ 2017 │ 80         │
+└──────┴────────────┘
+SELECT Year, Min(Count) FROM  (SELECT STRFTIME('%Y', register_date) as Year, COUNT(STRFTIME('%Y', register_date)) as Count FROM users GROUP BY STRFTIME('%Y', register_date));
+┌──────┬────────────┐
+│ Year │ Min(Count) │
+├──────┼────────────┤
+│ 2021 │ 4          │
+└──────┴────────────┘
+ 
