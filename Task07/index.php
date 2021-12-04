@@ -15,7 +15,7 @@ $rows = $statement->fetchAll();
 $statement->closeCursor();
 ?>
 
-<h1>Выбрать ID мастера</h1>
+<h1>Выберите ID мастера</h1>
 <form action="" method="POST">
     <label>
         <select style="width: 150px;" name="id">
